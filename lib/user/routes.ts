@@ -1,8 +1,10 @@
 import { Router } from "express";
-import { RegisterController, AllUsersController } from "./controllers";
+import { RegisterController, LoginController, AllUsersController } from "./controllers";
 
 const UserRoute = Router();
 
-UserRoute.route("/?").get(AllUsersController);
+UserRoute.route("/register").post(RegisterController);
+UserRoute.route("/login").post(LoginController);
+UserRoute.route("/?*").get(AllUsersController);
 
 export default UserRoute;

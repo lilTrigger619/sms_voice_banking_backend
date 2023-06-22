@@ -1,10 +1,11 @@
 import App from "./app";
 import "dotenv/config";
 import baseRoutes from "./baseRoutes";
-//dotenv.config();
+import DbConnect from "./dbconnect";
+import "dotenv/config";
 
+DbConnect();
 const {SERVER_PORT} = process.env;
-//console.log(process.env);
 
 baseRoutes.forEach(routeMiddleware=>{
 	App.use(...routeMiddleware);

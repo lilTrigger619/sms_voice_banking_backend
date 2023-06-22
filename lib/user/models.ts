@@ -5,14 +5,13 @@ const UserSchema = new mongoose.Schema({
 		type: String,
 		required: "first name is required",
 	},
-	lasName: {
+	lastName: {
 		type: String,
 		required: "last name is required",
 	},
 	email:{
 		type: String,
-		unique: true,
-		//required: "email is required",
+		required: "email is required",
 	},
 	phone: {
 		type: String,
@@ -27,5 +26,5 @@ const UserSchema = new mongoose.Schema({
 	},
 	token: String,
 });
-console.log({model: mongoose.model("user", UserSchema)});
+	console.log({model: mongoose.model("user", UserSchema)});
 export default mongoose.model("user", UserSchema);
