@@ -1,9 +1,17 @@
-import {Router, Request, Response} from "express";
+import { Response, Request, Router } from "express";
+import { ResponseCode } from "./utils/constants";
+import UserRoute from "./user/routes";
 
-const BaseRoutes = Router();
+const DefaultRoute = (req: Request, res: Response) =>
+	res.status(ResponseCode.SUCCESS).json({ message: "defualt route" });
 
-BaseRoutes.get("*", (req:Request, res:Response)=>{
-	return res.status(200).json("test ok");
-});
+const BaseRoutes: Set<
+	[string, ((req: Request, res: Response) => Response) | Router]
+> = new Set([
+	["/user", UserRoute],
+	["*", DefaultRoute],
+]);
+//BaseRoutes.add();
+//BaseRoutes.add();
 
 export default BaseRoutes;
