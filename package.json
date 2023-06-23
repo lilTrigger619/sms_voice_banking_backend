@@ -5,7 +5,7 @@
 	"main": "",
 	"scripts": {
 		"build": "tsc",
-		"dev": "ts-node ./lib/server.ts",
+		"dev": "nodemon ./lib/server.ts",
 		"start": "nodemon ./dist/server.js",
 		"prod": "npm run build && npm run start",
 		"test": "echo \"Error: no test specified\" && exit 1"
@@ -14,13 +14,19 @@
 	"author": "Opoku Shadrack",
 	"license": "ISC",
 	"dependencies": {
-		"@types/express": "^4.17.17",
+		"bcryptjs": "^2.4.3",
 		"body-parser": "^1.20.2",
 		"dotenv": "^16.3.1",
 		"express": "^4.18.2",
-		"mongoose": "^7.3.1"
+		"express-winston": "^4.2.0",
+		"jsonwebtoken": "^9.0.0",
+		"mongoose": "^7.3.1",
+		"winston": "^3.9.0"
 	},
 	"devDependencies": {
+		"@types/express": "^4.17.17",
+		"@types/bcryptjs": "^2.4.2",
+		"@types/jsonwebtoken": "^9.0.2",
 		"nodemon": "^2.0.22"
 	}
 }
