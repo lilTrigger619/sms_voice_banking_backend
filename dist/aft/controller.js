@@ -33,12 +33,12 @@ function HandleUssd(req, res) {
         }
         // when there is no account.
         if (text == "") {
-            const messageBody = "Would you like to register\n" + "1. Register" + "2. Cancel";
+            const messageBody = "CON Would you like to register\n" + "1. Register" + "2. Cancel";
             req.headers["content-type"] = "text/plain";
             return res.status(200).send(messageBody);
         }
         console.log("got here");
-        const messageBody = "Would you like to register\n" + "1. Register" + "2. Cancel";
+        const messageBody = "CON Would you like to register\n" + "1. Register\n" + "2. Cancel";
         req.headers["content-type"] = "text/plain";
         return res.status(200).send(messageBody);
     });
