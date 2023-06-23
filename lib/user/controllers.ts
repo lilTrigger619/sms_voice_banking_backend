@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { ResponseCode } from "../utils/constants";
 import UserModel from "./models";
 import Bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import "dotenv/config";
 
 // login crontroller for the user.
@@ -58,14 +58,14 @@ async function LoginController(req: Request, res: Response): Promise<Response> {
 			.status(ResponseCode.UNAUTHORIZED)
 			.json({ message: "all fields are required" });
 	// try get user from db.
-	try{
+	try {
 		const user = await UserModel.findOne({ email });
 		const samePass = await Bcrypt.compare(password, user?.password ?? " ");
-		console.log({samePass});
+		console.log({ samePass });
 		if (!user || !samePass)
 			return res
-		.status(ResponseCode.UNAUTHORIZED)
-		.json({ message: "no user found with provided credentials!" });
+				.status(ResponseCode.UNAUTHORIZED)
+				.json({ message: "no user found with provided credentials!" });
 		const token = jwt.sign(
 			{ user_id: user._id, email },
 			process.env.JWT_TOKEN_KEY ?? "shadrack",
@@ -73,10 +73,44 @@ async function LoginController(req: Request, res: Response): Promise<Response> {
 		);
 		user.token = token;
 		user.save();
-		return res.status(ResponseCode.SUCCESS).json({token:token});
-	}catch(e){
+		return res.status(ResponseCode.SUCCESS).json({ token: token });
+	} catch (e) {
 		console.log("login error", e);
-		return res.status(ResponseCode.INTERNAL_SERVER_ERROR).json({message:"login failed"});
+		return res
+			.status(ResponseCode.INTERNAL_SERVER_ERROR)
+			.json({ message: "login failed" });
+	}
+}
+
+// to modify the global interface of Request to be able to assign the user object to it.
+declare global {
+	namespace Express {
+		interface Request {
+			user: JwtPayload | string;
+		}
+	}
+}
+
+// verify token controller.
+async function VerifyToken(
+	req: Request,
+	res: Response,
+	next: NextFunction
+): Promise<Response | void> {
+	const token =
+		req.body.token ||
+		req.query.token ||
+		req.params.token ||
+		req.headers["x-access-token"];
+	if (!token)
+		return res.status(ResponseCode.UNAUTHORIZED).json({ message: "" });
+	try {
+		const Decoded = jwt.verify(token, process.env.JWT_TOKEN_KEY ?? "shadrack");
+		console.log({ Decoded });
+		req["user"] = Decoded;
+		return next();
+	} catch (e) {
+		return res.status(ResponseCode.UNAUTHORIZED).json({ message: "" });
 	}
 }
 
@@ -84,4 +118,4 @@ function AllUsersController(_: Request, res: Response): Response {
 	return res.status(ResponseCode.SUCCESS).json({ message: "all users" });
 }
 
-export { RegisterController, AllUsersController,LoginController };
+export { RegisterController, AllUsersController, LoginController, VerifyToken };
