@@ -7,18 +7,11 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const UserSchema = new mongoose_1.default.Schema({
     firstName: {
         type: String,
-        required: "first name is required",
     },
     lasName: {
         type: String,
-        required: "last name is required",
     },
-    email: {
-        type: String,
-        unique: true,
-        //required: "email is required",
-    },
-    phone: {
+    phoneNumber: {
         type: String,
     },
     created_date: {
@@ -30,6 +23,7 @@ const UserSchema = new mongoose_1.default.Schema({
         required: "password is required",
     },
     token: String,
+    reg: String,
 });
 console.log({ model: mongoose_1.default.model("user", UserSchema) });
 exports.default = mongoose_1.default.model("user", UserSchema);

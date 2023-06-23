@@ -3,18 +3,11 @@ import mongoose from "mongoose";
 const UserSchema = new mongoose.Schema({
 	firstName: {
 		type: String,
-		required: "first name is required",
 	},
 	lasName: {
 		type: String,
-		required: "last name is required",
 	},
-	email:{
-		type: String,
-		unique: true,
-		//required: "email is required",
-	},
-	phone: {
+	phoneNumber: {
 		type: String,
 	},
 	created_date: {
@@ -26,6 +19,7 @@ const UserSchema = new mongoose.Schema({
 		required: "password is required",
 	},
 	token: String,
+	reg: String,
 });
 console.log({model: mongoose.model("user", UserSchema)});
 export default mongoose.model("user", UserSchema);
