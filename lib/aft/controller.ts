@@ -6,7 +6,7 @@ async function HandleUssd(req: Request, res: Response): Promise<Response> {
 	console.log({ sessionId, serviceCode, phoneNumber, text });
 	// check if the user already exists.
 	const theUser = await UserModel.findOne({ phoneNumber });
-
+	
 	// when the user is has already created account.
 	if (theUser) {
 		// if this is the first message
@@ -24,14 +24,14 @@ async function HandleUssd(req: Request, res: Response): Promise<Response> {
 	// when there is no account.
 	if (text == "") {
 		const messageBody =
-			"Would you like to register\n" + "1. Register" + "2. Cancel";
+			"CON Would you like to register\n" + "1. Register" + "2. Cancel";
 		req.headers["content-type"] = "text/plain";
 		return res.status(200).send(messageBody);
 	}
 
 	console.log("got here");
 	const messageBody =
-		"Would you like to register\n" + "1. Register" + "2. Cancel";
+		"CON Would you like to register\n" + "1. Register\n" + "2. Cancel";
 	req.headers["content-type"] = "text/plain";
 	return res.status(200).send(messageBody);
 }
