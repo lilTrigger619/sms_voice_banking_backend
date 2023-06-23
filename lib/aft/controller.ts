@@ -3,7 +3,7 @@ import UserModel from "../user/models";
 
 async function HandleUssd(req: Request, res: Response): Promise<Response> {
 	const { sessionId, serviceCode, phoneNumber, text } = req.body;
-
+	console.log({ sessionId, serviceCode, phoneNumber, text });
 	// check if the user already exists.
 	const theUser = await UserModel.findOne({ phoneNumber });
 
