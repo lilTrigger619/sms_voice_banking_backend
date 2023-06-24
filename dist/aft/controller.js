@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HandleUssd = void 0;
-const models_1 = __importDefault(require("../user/models"));
+const models_1 = __importDefault(require("./models"));
 function HandleUssd(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const { sessionId, serviceCode, phoneNumber, text } = req.body;

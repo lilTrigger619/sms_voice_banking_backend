@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import UserModel from "../user/models";
+import UserModel from "./models";
 import axios from "axios";
 
 async function HandleUssd(req: Request, res: Response): Promise<Response> {
